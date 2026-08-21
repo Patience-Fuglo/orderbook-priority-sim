@@ -71,3 +71,14 @@ genuine competence in market microstructure and market-making research —
 order book mechanics first, then Avellaneda-Stoikov market-making theory,
 then a full market-making simulation with latency-sensitivity analysis.
 Each phase produces a real, testable artifact rather than notes alone.
+
+## Design Notes
+
+Decisions and known limitations, stated explicitly rather than left implicit:
+
+- **Price-level lookup is O(n) in the number of price levels** (best bid/ask found via `max()`/`min()` over dict keys), not O(1) or O(log n). Acceptable for a teaching sim; a production book would use a sorted structure (heap, skip list, or similar) to make this faster.
+- **Modify priority rules reflect real exchange behavior, not an arbitrary choice**: a size decrease keeps queue position because it reduces the order's footprint; a size increase or price change resets it because it's functionally a new commitment.
+- **No slippage/price-limit protection**: `market_order` will walk as many price levels as needed to fill, with no guard against excessive price impact. A production system would need a configurable limit here.
+- **No persistence, no concurrency handling**: this is a single-threaded, in-memory simulation, not a design for concurrent order flow or crash recovery.
+
+These are deliberate simplifications for a teaching/portfolio project, not oversights — noted here explicitly rather than left for a reviewer to find.
