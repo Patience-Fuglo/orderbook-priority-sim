@@ -1,8 +1,8 @@
 """
 visualize.py
 
-Depth-chart visualization for an OrderBook snapshot, extending the Day 4
-lesson (bid/ask bars around the spread) into a reusable plotting function.
+Depth-chart visualization for an OrderBook snapshot: bid/ask bars around
+the spread, rendered from a live book snapshot.
 """
 
 import matplotlib.pyplot as plt

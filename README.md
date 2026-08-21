@@ -1,12 +1,13 @@
 # orderbook-priority-sim
 
-A minimal limit order book engine implementing **price-time priority (FIFO)
-matching**, built as the Phase 0 capstone project of a self-directed HFT
-market microstructure curriculum.
+A limit order book engine implementing **price-time priority (FIFO)
+matching**: price levels sorted by best-first, orders within a level filled
+strictly in arrival order, and modify semantics that follow real exchange
+priority rules.
 
-This is a teaching and portfolio project, not a production matching engine —
-built to demonstrate genuine, hands-on understanding of order book mechanics,
-not to claim production HFT experience.
+This is a portfolio project, not a production matching engine — see
+[Design Notes](#design-notes) below for the specific tradeoffs and gaps
+that implies.
 
 ## What it does
 
@@ -64,21 +65,13 @@ print(book.best_bid(), book.best_ask(), book.spread())
 # -> 50.08 50.1 0.02
 ```
 
-## Why this exists
-
-This repo is Phase 0's deliverable in a longer curriculum working toward
-genuine competence in market microstructure and market-making research —
-order book mechanics first, then Avellaneda-Stoikov market-making theory,
-then a full market-making simulation with latency-sensitivity analysis.
-Each phase produces a real, testable artifact rather than notes alone.
-
 ## Design Notes
 
 Decisions and known limitations, stated explicitly rather than left implicit:
 
-- **Price-level lookup is O(n) in the number of price levels** (best bid/ask found via `max()`/`min()` over dict keys), not O(1) or O(log n). Acceptable for a teaching sim; a production book would use a sorted structure (heap, skip list, or similar) to make this faster.
+- **Price-level lookup is O(n) in the number of price levels** (best bid/ask found via `max()`/`min()` over dict keys), not O(1) or O(log n). A production book would use a sorted structure (heap, skip list, or similar) to make this faster.
 - **Modify priority rules reflect real exchange behavior, not an arbitrary choice**: a size decrease keeps queue position because it reduces the order's footprint; a size increase or price change resets it because it's functionally a new commitment.
 - **No slippage/price-limit protection**: `market_order` will walk as many price levels as needed to fill, with no guard against excessive price impact. A production system would need a configurable limit here.
 - **No persistence, no concurrency handling**: this is a single-threaded, in-memory simulation, not a design for concurrent order flow or crash recovery.
 
-These are deliberate simplifications for a teaching/portfolio project, not oversights — noted here explicitly rather than left for a reviewer to find.
+These are deliberate simplifications for a portfolio project, not oversights — noted here explicitly rather than left for a reviewer to find.

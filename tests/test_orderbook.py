@@ -1,6 +1,8 @@
 """
-Tests for OrderBook, tracing directly back to the curriculum's Week 1
-worked examples so the results are independently checkable by hand.
+Tests for OrderBook. Fill outcomes are traced back to a hand-worked
+reference book (see build_reference_book below) so every assertion is
+independently checkable by hand, not just asserted against the code's
+own behavior.
 """
 
 import sys, os
@@ -10,7 +12,8 @@ from orderbook_sim.orderbook import OrderBook
 
 
 def build_reference_book() -> OrderBook:
-    """The exact book used throughout Week 1's lessons."""
+    """A fixed 5-bid / 5-ask book reused across tests, worked out by hand
+    so expected fills can be verified independently of the implementation."""
     book = OrderBook()
     book.add_limit_order("A", "bid", 50.08, 200)
     book.add_limit_order("B", "bid", 50.08, 150)

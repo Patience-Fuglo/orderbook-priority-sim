@@ -1,8 +1,7 @@
 """
 orderbook.py
 
-A minimal limit order book implementing price-time priority (FIFO) matching,
-built as the Phase 0 capstone project of a self-directed HFT training curriculum.
+A minimal limit order book implementing price-time priority (FIFO) matching.
 
 Core ideas implemented here:
 - Price priority: best price always matches first (lowest ask for buys,
@@ -81,10 +80,12 @@ class OrderBook:
         """
         Handle an 'Order Modified' message.
 
-        Priority rule (matches the curriculum's Week 1 Day 1 discussion):
-          - size decrease -> keeps queue priority (in place, size just shrinks)
+        Priority rule (matches real exchange matching-engine behavior):
+          - size decrease -> keeps queue priority (in place, size just shrinks),
+            since shrinking an order only reduces its footprint on the book
           - size increase, or any price change -> loses priority; removed and
-            re-added at the back of the (possibly new) price level's queue
+            re-added at the back of the (possibly new) price level's queue,
+            since either change is functionally a new commitment
         """
         order = self._order_index.get(order_id)
         if order is None:
@@ -200,8 +201,8 @@ class OrderBook:
 
     def apply_message(self, msg: dict) -> Optional[list[dict]]:
         """
-        Convenience dispatcher for a message stream, matching the curriculum's
-        four message types: ADD / CANCEL / MODIFY / TRADE.
+        Convenience dispatcher for a message stream: ADD / CANCEL / MODIFY / TRADE,
+        the same four event types a real exchange feed publishes.
         Returns fills for TRADE messages, None otherwise.
         """
         mtype = msg["type"]
