@@ -71,3 +71,4 @@ genuine competence in market microstructure and market-making research —
 order book mechanics first, then Avellaneda-Stoikov market-making theory,
 then a full market-making simulation with latency-sensitivity analysis.
 Each phase produces a real, testable artifact rather than notes alone.
+# orderbook-priority-sim
