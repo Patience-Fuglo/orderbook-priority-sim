@@ -6,8 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "orderbook-priority-sim"
 version = "0.1.0"
 description = "A limit order book engine implementing price-time priority (FIFO) matching"
-requires-python = ">=3.9"
-dependencies = ["matplotlib>=3.7"]
+requires-python = ">=3.9,<3.13"
+dependencies = ["matplotlib>=3.7,<4.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
 
 [tool.setuptools]
 packages = ["orderbook_sim"]

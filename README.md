@@ -43,9 +43,16 @@ examples/
 ## Quickstart
 
 ```bash
-pip install matplotlib pytest
+pip install -e ".[dev]"
 python -m pytest tests/ -v
 python examples/demo.py
+```
+
+For a byte-reproducible install (the exact dependency versions this
+repo was actually tested against -- see `constraints.txt`):
+
+```bash
+pip install -e ".[dev]" -c constraints.txt
 ```
 
 ## Example
